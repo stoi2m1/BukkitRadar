@@ -1,5 +1,6 @@
 # Config of BukkitRadar
-# 
+# For information about the settings, go to
+# https://github.com/denniss17/BukkitRadar/blob/master/bukkitRadar/config.yml
 playerradar:
    # The display name of the radar
    name: Players
