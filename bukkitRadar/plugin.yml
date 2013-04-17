@@ -1,8 +1,8 @@
 name: BukkitRadar
 main: denniss17.bukkitRadar.BukkitRadar
-version: 0.1.0
+version: 1.0.0
 author: Denniss17
-website: 'http://dev.bukkit.org/server-mods/?/'
+website: 'http://dev.bukkit.org/server-mods/bukkitradar/'
 description: Show a radar
 commands:
    bukkitradar:
