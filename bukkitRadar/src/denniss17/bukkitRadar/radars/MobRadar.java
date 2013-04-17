@@ -63,26 +63,32 @@ public class MobRadar extends BaseRadar {
 	public void updateRadar() {
 		// Reset counts
 		for(EntityType type: entityCounts.keySet()){
-			entityCounts.put(type, 0);
+			entityCounts.put(type, -1);
 		}
 		
 		// Count entities
 		List<Entity> entities = player.getNearbyEntities(radius, radius, radius);
 		for(Entity entity : entities){
 			if(mobsShowed.contains(entity.getType())){
-				if(entityCounts.containsKey(entity.getType())){
-					entityCounts.put(entity.getType(), entityCounts.get(entity.getType())+1);
-				}else{
-					entityCounts.put(entity.getType(), 1);
+				int distance = (int)player.getLocation().distance(entity.getLocation());
+				if(distance<=radius){
+					if(entityCounts.containsKey(entity.getType())){
+						int current = entityCounts.get(entity.getType());
+						if(current==-1 || distance < current){
+							entityCounts.put(entity.getType(), distance);
+						}
+					}else{
+						entityCounts.put(entity.getType(), distance);
+					}
 				}
 			}
 		}
 		
 		// Remove score from list or send score
 		for(Entry<EntityType, Integer> entry: entityCounts.entrySet()){
-			if(entry.getValue()==0){
+			if(entry.getValue()==-1){
 				// Remove from scoreboard
-				this.removeCustomScore(entry.getKey().toString());
+				this.removeCustomScore(entry.getKey().toString().toLowerCase());
 				// Remove from mapping
 				// Don't remove directly: causes ConcurrentModificationException
 				toRemove.add(entry.getKey());

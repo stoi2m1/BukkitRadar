@@ -7,7 +7,7 @@ playerradar:
    radius: 64
 mobradar:
    # The display name of the radar
-   name: Mobcount
+   name: Mobs
    # The radius of this radar
    radius: 32
    # Put down here the names of the mobs that needs to be displayed
