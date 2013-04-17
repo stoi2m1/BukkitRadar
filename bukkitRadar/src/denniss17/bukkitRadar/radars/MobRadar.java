@@ -17,14 +17,14 @@ import denniss17.bukkitRadar.BukkitRadar.RadarType;
 
 public class MobRadar extends BaseRadar {
 	private Set<EntityType> toRemove;
-	private Map<EntityType, Integer> entityCounts;
+	private Map<EntityType, Integer> entityDistances;
 	
 	public static Set<EntityType> mobsShowed;
 
 	public MobRadar(BukkitRadar plugin, Player player) {
 		super(plugin, player, plugin.getConfig().getInt("mobradar.radius"));
 		this.type = RadarType.MOB_RADAR;
-		this.entityCounts = new HashMap<EntityType, Integer>();
+		this.entityDistances = new HashMap<EntityType, Integer>();
 		this.toRemove = new HashSet<EntityType>();
 		if(mobsShowed == null){
 			loadMobsShowed();
@@ -62,8 +62,8 @@ public class MobRadar extends BaseRadar {
 	@Override
 	public void updateRadar() {
 		// Reset counts
-		for(EntityType type: entityCounts.keySet()){
-			entityCounts.put(type, -1);
+		for(EntityType type: entityDistances.keySet()){
+			entityDistances.put(type, -1);
 		}
 		
 		// Count entities
@@ -72,20 +72,20 @@ public class MobRadar extends BaseRadar {
 			if(mobsShowed.contains(entity.getType())){
 				int distance = (int)player.getLocation().distance(entity.getLocation());
 				if(distance<=radius){
-					if(entityCounts.containsKey(entity.getType())){
-						int current = entityCounts.get(entity.getType());
+					if(entityDistances.containsKey(entity.getType())){
+						int current = entityDistances.get(entity.getType());
 						if(current==-1 || distance < current){
-							entityCounts.put(entity.getType(), distance);
+							entityDistances.put(entity.getType(), distance);
 						}
 					}else{
-						entityCounts.put(entity.getType(), distance);
+						entityDistances.put(entity.getType(), distance);
 					}
 				}
 			}
 		}
 		
 		// Remove score from list or send score
-		for(Entry<EntityType, Integer> entry: entityCounts.entrySet()){
+		for(Entry<EntityType, Integer> entry: entityDistances.entrySet()){
 			if(entry.getValue()==-1){
 				// Remove from scoreboard
 				this.removeCustomScore(entry.getKey().toString().toLowerCase());
@@ -99,7 +99,7 @@ public class MobRadar extends BaseRadar {
 		}
 		// Clean up
 		for(EntityType type : toRemove){
-			entityCounts.remove(type);
+			entityDistances.remove(type);
 		}
 		toRemove.clear();
 	}
