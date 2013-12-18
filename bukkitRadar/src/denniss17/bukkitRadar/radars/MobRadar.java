@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -14,12 +15,13 @@ import org.bukkit.scoreboard.DisplaySlot;
 
 import denniss17.bukkitRadar.BukkitRadar;
 import denniss17.bukkitRadar.BukkitRadar.RadarType;
+import denniss17.bukkitRadar.utils.ChatStyler;
 
 public class MobRadar extends BaseRadar {
 	private Set<EntityType> toRemove;
 	private Map<EntityType, Integer> entityDistances;
 	
-	public static Set<EntityType> mobsShowed;
+	public static Map<EntityType, String> mobsShowed;
 
 	public MobRadar(BukkitRadar plugin, Player player) {
 		super(plugin, player, plugin.getConfig().getInt("mobradar.radius"));
@@ -32,12 +34,15 @@ public class MobRadar extends BaseRadar {
 	}
 	
 	private void loadMobsShowed(){
-		mobsShowed = new HashSet<EntityType>();
-		for(String entityname : plugin.getConfig().getStringList("mobradar.mobs")){
-			try{
-				mobsShowed.add(EntityType.valueOf(entityname));
-			}catch(IllegalArgumentException e){
-				plugin.getLogger().warning("Entity '" + entityname + "' in mobradar.mobs (config.yml) is not a valid entityname!");
+		mobsShowed = new HashMap<EntityType, String>();
+		if(plugin.getConfig().contains("mobradar.mobs")){
+			ConfigurationSection section = plugin.getConfig().getConfigurationSection("mobradar.mobs");
+			for(Entry<String, Object> entry : section.getValues(false).entrySet()){
+				try{
+					mobsShowed.put(EntityType.valueOf(entry.getKey()), entry.getValue().toString());
+				}catch(IllegalArgumentException e){
+					plugin.getLogger().warning("Entity '" + entry.getKey() + "' in mobradar.mobs (config.yml) is not a valid entityname!");
+				}
 			}
 		}
 	}
@@ -50,6 +55,16 @@ public class MobRadar extends BaseRadar {
 		}
 		this.objective.setDisplayName(parseObjectiveName(plugin.getConfig().getString("mobradar.name")));
 		this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+	}
+	
+	@Override
+	public void preReload(){
+		// Clear scoreboard before reload
+		for(Entry<EntityType, Integer> entry: entityDistances.entrySet()){
+			// Remove from scoreboard
+			this.removeCustomScore(ChatStyler.setMessageColor(mobsShowed.get(entry.getKey())));
+		}
+		entityDistances.clear();
 	}
 	
 	@Override
@@ -69,7 +84,7 @@ public class MobRadar extends BaseRadar {
 		// Count entities
 		List<Entity> entities = player.getNearbyEntities(radius, radius, radius);
 		for(Entity entity : entities){
-			if(mobsShowed.contains(entity.getType())){
+			if(mobsShowed.containsKey(entity.getType())){
 				int distance = (int)player.getLocation().distance(entity.getLocation());
 				if(distance<=radius){
 					if(entityDistances.containsKey(entity.getType())){
@@ -88,13 +103,13 @@ public class MobRadar extends BaseRadar {
 		for(Entry<EntityType, Integer> entry: entityDistances.entrySet()){
 			if(entry.getValue()==-1){
 				// Remove from scoreboard
-				this.removeCustomScore(entry.getKey().toString().toLowerCase());
+				this.removeCustomScore(ChatStyler.setMessageColor(mobsShowed.get(entry.getKey())));
 				// Remove from mapping
 				// Don't remove directly: causes ConcurrentModificationException
 				toRemove.add(entry.getKey());
 			}else{
 				// Send score
-				this.sendCustomScore(entry.getKey().toString().toLowerCase(), entry.getValue());
+				this.sendCustomScore(ChatStyler.setMessageColor(mobsShowed.get(entry.getKey())), entry.getValue());
 			}
 		}
 		// Clean up

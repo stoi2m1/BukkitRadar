@@ -1,8 +1,5 @@
 package denniss17.bukkitRadar.radars;
 
-import net.minecraft.server.v1_6_R2.Packet207SetScoreboardScore;
-
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 
@@ -31,23 +28,27 @@ public abstract class BaseRadar {
 	}
 	
 	public void sendCustomScore(String name, int value){
+		objective.getScore(plugin.getServer().getOfflinePlayer(name)).setScore(value);
+		//manager.
+		/*PacketPlayOutScoreboardScore pack = new 
 		Packet207SetScoreboardScore pack = new Packet207SetScoreboardScore();
         pack.a = name; // Item name
         pack.c = value; // Item score
         pack.d = 0; // 0 for create/update, 1 for remove
         pack.b = objective.getName(); // Scoreboard name
         
-       ((CraftPlayer)player).getHandle().playerConnection.sendPacket(pack);
+       ((CraftPlayer)player).getHandle().playerConnection.sendPacket(pack);*/
 	}
 	
 	public void removeCustomScore(String name){
-		Packet207SetScoreboardScore pack = new Packet207SetScoreboardScore();
+		objective.getScoreboard().resetScores(plugin.getServer().getOfflinePlayer(name));
+		/*Packet207SetScoreboardScore pack = new Packet207SetScoreboardScore();
         pack.a = name; // Item name
         //pack.c = value; // Item score - not used on remove
         pack.d = 1; // 0 for create/update, 1 for remove
         pack.b = objective.getName(); // Scoreboard name
         
-       ((CraftPlayer)player).getHandle().playerConnection.sendPacket(pack);
+       ((CraftPlayer)player).getHandle().playerConnection.sendPacket(pack);*/
 	}
 	
 	public String parseObjectiveName(String name){
@@ -75,6 +76,8 @@ public abstract class BaseRadar {
 	public abstract void updateRadar();
 	
 	public abstract void init();
+	
+	public void preReload(){};
 	
 	public abstract void reload();
 	

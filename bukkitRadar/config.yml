@@ -16,20 +16,20 @@ mobradar:
    # http://jd.bukkit.org/rb/apidocs/org/bukkit/entity/EntityType.html
    # Please use only uppercase
    mobs:
-      - CREEPER
-      - CAVE_SPIDER
-      - ENDER_DRAGON
-      - ENDERMAN
-      - GHAST
-      - GIANT
-      - MAGMA_CUBE
-      - SILVERFISH
-      - SKELETON
-      - SLIME
-      - SPIDER
-      - WITCH
-      - WITHER
-      - ZOMBIE
+      CREEPER: '&aCreeper'
+      CAVE_SPIDER: '&7Cave spider'
+      ENDER_DRAGON: '&fEnder dragon'
+      ENDERMAN: '&5Enderman'
+      GHAST: '&fGhast'
+      GIANT: '&3Giant'
+      MAGMA_CUBE: '&6Magma cube'
+      SILVERFISH: '&7Silverfish'
+      SKELETON: '&fSkeleton'
+      SLIME: '&aSlime'
+      SPIDER: '&7Spider'
+      WITCH: '&2Witch'
+      WITHER: '&fWither'
+      ZOMBIE: '&3Zombie'
       # Friendly mobs:
       # - BAT
       # - CHICKEN
@@ -45,7 +45,7 @@ mobradar:
       # - VILLAGER
       # - WOLF
 # How often should the radars update? 20 = 1 second
-radar_update_interval: 10
+radar_update_interval: 20
 # Should the plugin check for updates?
 check_updates: true
 # With what interval should the plugin check for updates (in minutes)

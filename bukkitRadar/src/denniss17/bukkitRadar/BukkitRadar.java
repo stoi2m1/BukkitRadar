@@ -51,6 +51,9 @@ public class BukkitRadar extends JavaPlugin implements Runnable {
 	}
 	
 	public void reload() {
+		for(BaseRadar radar : currentRadars){
+			radar.preReload();
+		}
 		reloadConfig();
 		for(BaseRadar radar : currentRadars){
 			radar.reload();
