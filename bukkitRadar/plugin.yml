@@ -21,6 +21,12 @@ permissions:
        children:
            bukkitradar.bukkitradar: true
            bukkitradar.clearradar: true
+   bukkitradar.oreradar:
+       description: Permission to use the ore radar
+       default: op
+       children:
+           bukkitradar.bukkitradar: true
+           bukkitradar.clearradar: true
    bukkitradar.mobradar:
        description: Permission to use the mob radar
        default: op

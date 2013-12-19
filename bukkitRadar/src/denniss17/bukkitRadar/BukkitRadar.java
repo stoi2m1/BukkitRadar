@@ -1,5 +1,6 @@
 package denniss17.bukkitRadar;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import denniss17.bukkitRadar.radars.BaseRadar;
 import denniss17.bukkitRadar.radars.MobRadar;
+import denniss17.bukkitRadar.radars.OreRadar;
 import denniss17.bukkitRadar.radars.PlayerRadar;
 import denniss17.bukkitRadar.utils.ChatStyler;
 import denniss17.bukkitRadar.utils.VersionChecker;
@@ -38,8 +40,10 @@ public class BukkitRadar extends JavaPlugin implements Runnable {
 		BukkitRadarCommands executor = new BukkitRadarCommands(this);
 		this.getCommand("bukkitradar").setExecutor(executor);
 		
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		File file = new File(getDataFolder(), "config.yml");
+		if(!file.exists()){
+			saveDefaultConfig();
+		}
 	}
 	
 	public void onDisable(){
@@ -66,45 +70,36 @@ public class BukkitRadar extends JavaPlugin implements Runnable {
 		}
 	}
 	
-	// Show the player radar
-	public void showPlayerRadar(Player player){
+	public void showRadar(Player player, RadarType type){
 		BaseRadar current = getRadarByPlayer(player);
 		if(current!=null){
-			if(current.getType().equals(RadarType.PLAYER_RADAR)){
-				// Radar is already player radar
+			if(current.getType().equals(type)){
+				// Radar is already of correct type
 				return;
 			}else{
+				// Destroy radar
 				current.destroy();
 				currentRadars.remove(current);
 			}
 		}
 		
-		BaseRadar radar = new PlayerRadar(this, player);
-		radar.init();
-		
-		currentRadars.add(radar);
-		
-		startTimer();
-	}
-	
-	// Show the mob radar
-	public void showMobRadar(Player player){
-		BaseRadar current = getRadarByPlayer(player);
-		if(current!=null){
-			if(current.getType().equals(RadarType.MOB_RADAR)){
-				// Radar is already player radar
-				return;
-			}else{
-				current.destroy();
-				currentRadars.remove(current);
-			}
+		// Create new radar
+		BaseRadar radar = null;
+		switch(type){
+		case MOB_RADAR:
+			radar = new MobRadar(this, player);
+			break;
+		case ORE_RADAR:
+			radar = new OreRadar(this, player);
+			break;
+		case PLAYER_RADAR:
+			radar = new PlayerRadar(this, player);
+			break;
 		}
 		
-		BaseRadar radar = new MobRadar(this, player);
+		// Start new radar
 		radar.init();
-		
 		currentRadars.add(radar);
-		
 		startTimer();
 	}
 

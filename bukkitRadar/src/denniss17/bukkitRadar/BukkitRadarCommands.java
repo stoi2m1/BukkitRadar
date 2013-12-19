@@ -5,6 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import denniss17.bukkitRadar.BukkitRadar.RadarType;
+
 
 public class BukkitRadarCommands implements CommandExecutor {
 	
@@ -65,7 +67,7 @@ public class BukkitRadarCommands implements CommandExecutor {
 		
 		if(args[1].equals("player")){
 			if(player.hasPermission("bukkitradar.playerradar")){
-				plugin.showPlayerRadar(player);
+				plugin.showRadar(player, RadarType.PLAYER_RADAR);
 				plugin.sendConfigMessage(player, "radar_player_set");
 			}else{
 				plugin.sendConfigMessage(player, "error_no_permission");
@@ -73,8 +75,16 @@ public class BukkitRadarCommands implements CommandExecutor {
 			return true;
 		}else if(args[1].equals("mob")){
 			if(player.hasPermission("bukkitradar.mobradar")){
-				plugin.showMobRadar(player);
+				plugin.showRadar(player, RadarType.MOB_RADAR);
 				plugin.sendConfigMessage(player, "radar_mob_set");
+			}else{
+				plugin.sendConfigMessage(player, "error_no_permission");
+			}
+			return true;
+		}else if(args[1].equals("ore")){
+			if(player.hasPermission("bukkitradar.oreradar")){
+				plugin.showRadar(player, RadarType.ORE_RADAR);
+				plugin.sendConfigMessage(player, "radar_ore_set");
 			}else{
 				plugin.sendConfigMessage(player, "error_no_permission");
 			}

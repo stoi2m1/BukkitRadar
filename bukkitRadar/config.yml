@@ -12,12 +12,13 @@ mobradar:
    # The radius of this radar
    radius: 32
    # Put down here the names of the mobs that needs to be displayed
+   # The text value is the text that is displayed in the radar
    # The complete list of showable entities can be found here:
    # http://jd.bukkit.org/rb/apidocs/org/bukkit/entity/EntityType.html
    # Please use only uppercase
    mobs:
       CREEPER: '&aCreeper'
-      CAVE_SPIDER: '&7Cave spider'
+      CAVE_SPIDER: '&8Cave spider'
       ENDER_DRAGON: '&fEnder dragon'
       ENDERMAN: '&5Enderman'
       GHAST: '&fGhast'
@@ -26,7 +27,7 @@ mobradar:
       SILVERFISH: '&7Silverfish'
       SKELETON: '&fSkeleton'
       SLIME: '&aSlime'
-      SPIDER: '&7Spider'
+      SPIDER: '&8Spider'
       WITCH: '&2Witch'
       WITHER: '&fWither'
       ZOMBIE: '&3Zombie'
@@ -44,6 +45,25 @@ mobradar:
       # - SQUID
       # - VILLAGER
       # - WOLF
+oreradar:
+   # The display name of the radar
+   name: Ores
+   # The radius of this radar
+   radius: 16
+   # Put down here the names of the mobs that needs to be displayed
+   # The text value is the text that is displayed in the radar
+   # The complete list of showable entities can be found here:
+   # http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
+   # Please use only uppercase
+   blocks:
+      DIAMOND_ORE: '&bDiamond'
+      IRON_ORE: '&7Iron'
+      EMERALD_ORE: '&aEmerald'
+      GOLD_ORE: '&6Gold'
+      REDSTONE_ORE: '&4Redstone'
+      GLOWING_REDSTONE_ORE: '&4Redstone'
+      LAPIS_ORE: '&1Lapis'
+      QUARTZ_ORE: '&fQuartz'
 # How often should the radars update? 20 = 1 second
 radar_update_interval: 20
 # Should the plugin check for updates?
@@ -53,12 +73,13 @@ check_updates_interval: 180
 # Individual messages can be changed here
 messages:
    menu_header: '&7--=== &8[&2BukkitRadar&8] &7===--'
-   menu_set: ' &f/bukkitradar &7set <player|mob>'
+   menu_set: ' &f/bukkitradar &7set <player|mob|ore>'
    menu_clear: ' &f/bukkitradar &7clear'
    menu_reload: ' &f/bukkitradar &7reload'
    menu_footer: ' &7You can also use &f/br &7or &f/radar'
    radar_player_set: '&8[&2BukkitRadar&8] &7Player radar set'
    radar_mob_set: '&8[&2BukkitRadar&8] &7Mob radar set'
+   radar_ore_set: '&8[&2BukkitRadar&8] &7Ore radar set'
    radar_type_not_valid: '&8[&2BukkitRadar&8] &eThat radar doesn`t exists!'
    radar_cleared: '&8[&2BukkitRadar&8] &7Radar cleared'
    plugin_reloaded: '&8[&2BukkitRadar&8] &7Plugin reloaded'
