@@ -18,6 +18,8 @@ import denniss17.bukkitRadar.utils.VersionChecker;
 
 public class BukkitRadar extends JavaPlugin implements Runnable {
 	public static VersionChecker versionChecker;
+	public static final int PROJECT_ID = 55957;
+	
 	private Set<BaseRadar> currentRadars;
 	
 	private BukkitTask timerTask;
@@ -31,7 +33,7 @@ public class BukkitRadar extends JavaPlugin implements Runnable {
 		this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 		
 		if(getConfig().getBoolean("check_updates")){
-			versionChecker = new VersionChecker(this);
+			versionChecker = new VersionChecker(this, PROJECT_ID);
 			versionChecker.activate(getConfig().getInt("check_updates_interval")*60*20);
 		}		
 		
