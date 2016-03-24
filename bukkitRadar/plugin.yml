@@ -15,6 +15,9 @@ permissions:
    bukkitradar.clearradar:
        description: Permission to clear your radar
        default: true
+   bukkitRadar.bigradius:
+       description: Allows user to have a bigger radar radius
+       default: op
    bukkitradar.playerradar:
        description: Permission to use the player radar
        default: op

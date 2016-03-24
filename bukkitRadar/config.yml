@@ -6,11 +6,13 @@ playerradar:
    name: Players
    # The radius of this radar
    radius: 64
+   bigRadius: 128
 mobradar:
    # The display name of the radar
    name: Mobs
    # The radius of this radar
    radius: 32
+   bigRadius: 64
    # Put down here the names of the mobs that needs to be displayed
    # The text value is the text that is displayed in the radar
    # The complete list of showable entities can be found here:
@@ -50,6 +52,7 @@ oreradar:
    name: Ores
    # The radius of this radar
    radius: 16
+   bigRadius: 32
    # Put down here the names of the mobs that needs to be displayed
    # The text value is the text that is displayed in the radar
    # The complete list of showable entities can be found here:
